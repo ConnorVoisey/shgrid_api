@@ -71,6 +71,9 @@
               jq
               pgcli
             ];
+            shellHook = ''
+                onefetch
+            '';
           };
         });
 
