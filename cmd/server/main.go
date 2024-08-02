@@ -190,10 +190,10 @@ func main() {
 				Int("Port", options.Port).
 				Msg("Started server")
 			err := http.ListenAndServe(fmt.Sprintf(":%d", options.Port), router)
-		if err != nil {
-			state.Log.Err(err).Msg("Failed to listen and serve")
-			panic(err)
-		}
+			if err != nil {
+				state.Log.Err(err).Msg("Failed to listen and serve")
+				panic(err)
+			}
 		})
 	})
 
