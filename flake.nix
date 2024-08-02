@@ -64,10 +64,13 @@
               gopls 
               gotools 
               go-tools 
+              go-migrate
               air
               go-jet
+              golangci-lint
 
               onefetch
+              restish
               jq
               pgcli
             ];
