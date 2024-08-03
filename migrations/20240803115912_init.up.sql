@@ -1,4 +1,3 @@
--- This needs to be moved into something that can run migrations
 create table addresses
 (
     id             uuid         not null

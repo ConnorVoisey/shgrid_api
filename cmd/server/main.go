@@ -136,6 +136,7 @@ func addRoutes(api huma.API, log *zerolog.Logger, db *sql.DB) {
 			Count int
 		}
 		stmtQuery := SELECT(COUNT(STAR)).FROM(table.Contacts)
+		contactsAddWhere(stmtQuery, input.Body.Filters)
 		countErr := stmtQuery.Query(
 			db,
 			&dest,
@@ -170,11 +171,11 @@ func addRoutes(api huma.API, log *zerolog.Logger, db *sql.DB) {
 }
 
 func main() {
-	state, err := load.Init()
+	log, db, err := load.Init()
 	if err != nil {
 		panic(err)
 	}
-	defer state.Db.Close()
+	defer db.Close()
 
 	var api huma.API
 	// Create a CLI app which takes a port option.
@@ -183,15 +184,15 @@ func main() {
 		router := http.NewServeMux()
 		api = humago.New(router, huma.DefaultConfig("My API", "1.0.0"))
 
-		addRoutes(api, state.Log, state.Db)
+		addRoutes(api, log, db)
 		// Tell the CLI how to start your server.
 		hooks.OnStart(func() {
-			state.Log.Info().
+			log.Info().
 				Int("Port", options.Port).
 				Msg("Started server")
 			err := http.ListenAndServe(fmt.Sprintf(":%d", options.Port), router)
 			if err != nil {
-				state.Log.Err(err).Msg("Failed to listen and serve")
+				log.Err(err).Msg("Failed to listen and serve")
 				panic(err)
 			}
 		})

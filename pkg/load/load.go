@@ -2,18 +2,13 @@ package load
 
 import (
 	"database/sql"
-	"github.com/connorvoisey/shgrid_api/pkg/db"
+	DB "github.com/connorvoisey/shgrid_api/pkg/db"
 	_ "github.com/danielgtaylor/huma/v2/formats/cbor"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"github.com/rs/zerolog"
 	"os"
 )
-
-type State struct {
-	Log *zerolog.Logger
-	Db  *sql.DB
-}
 
 func InitLogger() (*zerolog.Logger, error) {
 	consoleWriter := zerolog.ConsoleWriter{Out: os.Stdout}
@@ -33,25 +28,27 @@ func InitLogger() (*zerolog.Logger, error) {
 	return &log, nil
 }
 
-func Init() (*State, error) {
+func Init() (*zerolog.Logger, *sql.DB, error) {
 	err := godotenv.Load()
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	log, err := InitLogger()
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	db, err := db.GetDb(log)
+	db, err := DB.GetDb(log)
 	if err != nil {
-		return nil, err
+		log.Err(err).Msg("Failed to get db")
+		return log, nil, err
 	}
 
-	state := State{
-		log,
-		db,
+	err = DB.Migrate(log)
+	if err != nil {
+		log.Err(err).Msg("Failed to migrate")
+		return log, nil, err
 	}
-	return &state, nil
+	return log, db, nil
 }

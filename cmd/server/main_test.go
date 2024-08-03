@@ -9,13 +9,13 @@ import (
 )
 
 func TestGetGreeting(t *testing.T) {
-    state, err := load.Init()
-    if err != nil{
-        panic(err)
-    }
+	log, db, err := load.Init()
+	if err != nil {
+		panic(err)
+	}
 	_, api := humatest.New(t)
 
-	addRoutes(api, state.Log, state.Db)
+	addRoutes(api, log, db)
 
 	resp := api.Get("/greeting/world")
 	if !strings.Contains(resp.Body.String(), "Hello, world!") {
@@ -24,13 +24,13 @@ func TestGetGreeting(t *testing.T) {
 }
 
 func TestPutReview(t *testing.T) {
-    state, err := load.Init()
-    if err != nil{
-        panic(err)
-    }
+	log, db, err := load.Init()
+	if err != nil {
+		panic(err)
+	}
 	_, api := humatest.New(t)
 
-	addRoutes(api, state.Log, state.Db)
+	addRoutes(api, log, db)
 
 	resp := api.Post("/reviews", map[string]any{
 		"author": "daniel",
@@ -43,13 +43,13 @@ func TestPutReview(t *testing.T) {
 }
 
 func TestPutReviewError(t *testing.T) {
-    state, err := load.Init()
-    if err != nil{
-        panic(err)
-    }
+	log, db, err := load.Init()
+	if err != nil {
+		panic(err)
+	}
 	_, api := humatest.New(t)
 
-	addRoutes(api, state.Log, state.Db)
+	addRoutes(api, log, db)
 
 	resp := api.Post("/reviews", map[string]any{
 		"rating": 10,

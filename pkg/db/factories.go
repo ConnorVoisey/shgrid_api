@@ -1,10 +1,10 @@
 package db
 
 import (
-	"github.com/jaswdr/faker/v2"
-	"github.com/google/uuid"
-	_ "github.com/lib/pq"
 	_ "github.com/go-jet/jet/v2/postgres"
+	"github.com/google/uuid"
+	"github.com/jaswdr/faker/v2"
+	_ "github.com/lib/pq"
 )
 
 func ContactFactory(fake faker.Faker, addressId *uuid.UUID, organisationId *uuid.UUID) (*Contacts, error) {
