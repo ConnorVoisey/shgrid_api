@@ -12,7 +12,7 @@ import (
 const (
 	batchLoops      = 1
 	batches         = 5
-	recordsPerBatch = 10_000
+	recordsPerBatch = 2500
 )
 
 func main() {

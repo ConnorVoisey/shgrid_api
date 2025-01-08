@@ -11,6 +11,7 @@ import (
 )
 
 func InitLogger() (*zerolog.Logger, error) {
+    zerolog.SetGlobalLevel(zerolog.ErrorLevel)
 	consoleWriter := zerolog.ConsoleWriter{Out: os.Stdout}
 
 	file, err := os.OpenFile(

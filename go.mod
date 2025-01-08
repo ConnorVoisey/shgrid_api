@@ -4,6 +4,8 @@ go 1.22
 
 require (
 	github.com/danielgtaylor/huma/v2 v2.19.0
+	github.com/go-chi/chi/v5 v5.1.0
+	github.com/go-chi/cors v1.2.1
 	github.com/go-jet/jet/v2 v2.11.1
 	github.com/golang-migrate/migrate/v4 v4.17.1
 	github.com/google/uuid v1.6.0
